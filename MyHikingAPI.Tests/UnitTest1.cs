@@ -6,7 +6,7 @@ namespace MyHikingAPI.Tests
     public class ServicesTest
     {
         [Fact]
-        public void GetAllMountains_CheckIfReturnsPopulatedList()
+        public void GetAllMountains_CheckIfReturnsPopulatedListOfMountains()
         {
             //Arrange 
             MountainService mountainService = new MountainService(); 
@@ -21,9 +21,7 @@ namespace MyHikingAPI.Tests
             // The method returns a List<Mountain>, which is stored in the variable 'mountains'.
             
             //Assert 
-            Assert.NotNull(mountains); // checks if list is not null
-            Assert.NotEmpty(mountains); // checks if list is not empty 
-            mountains.Should().NotBeNullOrEmpty();
+            mountains.Should().NotBeNullOrEmpty(); // checks if list is not null or empty 
 
 
         }
