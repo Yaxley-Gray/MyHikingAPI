@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "My_Hiking_API": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7286",
+      "launchBrowser": false
+    }
+  }
+}
