@@ -16,7 +16,7 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <None Update="Data\mountains.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
