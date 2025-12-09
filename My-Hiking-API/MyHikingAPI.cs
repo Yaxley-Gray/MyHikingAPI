@@ -10,20 +10,36 @@ using MyHikingAPI.Models;
 using MyHikingAPI.Services;
 using System;
 using System.Linq;
+using System.Net.Http;
 
 namespace My.Functions
 {
-    public static class MyHikingAPI
+    public class MyHikingAPI
     {
+        private readonly IMountainService _mountainService;
+        private readonly HttpClient _client;
+        private readonly ILogger<MyHikingAPI> _log;
+
+        // constructor 
+
+        public MyHikingAPI(IMountainService mountainService 
+,
+            IHttpClientFactory httpClientFactory,
+            ILogger<MyHikingAPI> log)
+        {
+            _mountainService = mountainService; 
+            _client = httpClientFactory.CreateClient();
+            _log = log; 
+        }
+    
         [FunctionName("MyHikingAPI")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-            MountainService mountainService = new MountainService();
 
-            var mountains = mountainService.GetAllMountains();
+            var mountains = _mountainService.GetAllMountains();
             Console.WriteLine($"Here are the list of mountains: {mountains.Select(m => m.Name).ToList()}");
 
             string name = req.Query["name"];
