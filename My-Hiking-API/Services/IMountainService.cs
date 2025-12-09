@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MyHikingAPI.Models;
 
-namespace My_Hiking_API.Services;
+namespace MyHikingAPI.Services;
 
 public interface IMountainService
 {
