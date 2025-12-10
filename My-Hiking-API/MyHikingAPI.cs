@@ -16,20 +16,21 @@ namespace My.Functions
 {
     public class MyHikingAPI
     {
-        private readonly IMountainService _mountainService;
+        private readonly IMountainService _mountainService; // Domain service used to retrieve mountains 
         private readonly HttpClient _client;
-        private readonly ILogger<MyHikingAPI> _log;
+        // private readonly ILogger<MyHikingAPI> _log; // Class-level logger 
 
-        // constructor 
+        // Constructor. Dependencies are injected by the functions DI container 
 
         public MyHikingAPI(IMountainService mountainService 
 ,
             IHttpClientFactory httpClientFactory,
             ILogger<MyHikingAPI> log)
         {
-            _mountainService = mountainService; 
-            _client = httpClientFactory.CreateClient();
-            _log = log; 
+            // Stoe dependencies for later use
+            this._mountainService = mountainService; 
+            this._client = httpClientFactory.CreateClient();
+           // _log = log; 
         }
     
         [FunctionName("MyHikingAPI")]
@@ -38,9 +39,10 @@ namespace My.Functions
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-
+            
+            // Call the injected mountain service to retieve all available mountains & Log the name of the retrieved mountains 
             var mountains = _mountainService.GetAllMountains();
-            Console.WriteLine($"Here are the list of mountains: {mountains.Select(m => m.Name).ToList()}");
+            log.LogInformation($"Here are the list of mountains: {mountains.Select(m => m.Name).ToList()}");
 
             string name = req.Query["name"];
 
