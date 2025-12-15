@@ -77,6 +77,25 @@ This project uses async/await for non-blocking I/O operations, which is a best p
 - Improved scalability: Serverless environments benefit from freeing threads during I/O, enabling more concurrent executions.
 - Cleaner code: Async/await avoids complex callbacks and makes asynchronous code easier to read.
 
+## SQL Server Connectivity 
+If SQL Server fails to start or connect (e.g., Error 802: insufficient memory, Error 1069: logon failure, or SSL certificate issues), follow these steps in command prompt (run as admin):
+- Check if the SQL server is running: 
+    sc query MSSQLSERVER
+- If it is not running, try switching to LocalSystem (ignore this step if it is already set up to localsystem): 
+    sc.exe config MSSQLSERVER obj= "LocalSystem" password= ""
+- Start the server, if this starts successfully you should see The SQL Server (MSSQLSERVER) service was started successfully: 
+    net start MSSQLSERVER
+    If LocalSystem still fails with 1069: 
+    sc.exe config MSSQLSERVER obj= "NT AUTHORITY\NetworkService" password= ""
+- Grant this account access to the SQL folders: 
+    icacls "C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\DATA" /grant "NT AUTHORITY\NETWORK SERVICE:(OI)(CI)M"
+    icacls "C:\Program Files\Microsoft SQL Server\MSSQL17.MSSQLSERVER\MSSQL\Log"  /grant "NT AUTHORITY\NETWORK SERVICE:(OI)(CI)M"
+    net start MSSQLSERVER
+- Connect with sqlcmd and trust the server certificate: 
+    sqlcmd -S lpc:localhost -E -C -d master -Q "SELECT @@SERVERNAME;"
+- Start SQL server in minimal configuration (if memory error occurs): 
+    sqlcmd -S lpc:localhost -E -C -d master -Q "EXEC sp_configure 'show advanced options',1; RECONFIGURE WITH OVERRIDE; EXEC sp_configure 'max server memory (MB)',1024; EXEC sp_configure 'min server memory (MB)',0; RECONFIGURE WITH OVERRIDE;"
+
 
 ## Running the app
 *To be added*
