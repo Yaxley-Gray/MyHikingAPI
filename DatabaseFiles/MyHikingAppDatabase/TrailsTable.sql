@@ -7,5 +7,5 @@ CREATE TABLE [dbo].[TrailsTable]
   [Distance] DECIMAL(6,2) NOT NULL, -- this is in km 
   CONSTRAINT FK_Trails_MountainsId
       FOREIGN KEY ([MountainId])
-    REFERENCES MountainsTable([Id])
+    REFERENCES MountainsNormalised([Id])
 );
