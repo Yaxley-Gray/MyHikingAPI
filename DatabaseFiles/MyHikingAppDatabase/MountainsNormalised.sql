@@ -6,6 +6,6 @@ CREATE TABLE [dbo].[MountainsNormalised]
   [LocationId] UNIQUEIDENTIFIER NOT NULL,
   CONSTRAINT PK_MountainsNormalised PRIMARY KEY ([Id]),
   CONSTRAINT FK_MountainsNormalised_Locations 
-      FOREIGN KEY (LocationId)
+      FOREIGN KEY ([LocationId])
     REFERENCES LocationsTable([Id])
 );
